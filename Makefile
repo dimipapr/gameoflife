@@ -23,8 +23,12 @@ RELEASE_OBJECTS = $(patsubst $(SOURCE_DIR)/%.c,$(RELEASE_DIR)/%.o,$(SOURCES))
 all:$(DEBUG_TARGET) $(RELEASE_TARGET)
 
 debug:$(DEBUG_TARGET)
+	gdb $(DEBUG_TARGET)
 
 release:$(RELEASE_TARGET)
+
+memcheck:$(DEBUG_TARGET)
+	@valgrind --leak-check=full -s $(DEBUG_TARGET)
 
 $(DEBUG_TARGET):$(DEBUG_OBJECTS)
 	$(CC) $(CFLAGS) $(DEBUG_CFLAGS) $(DEBUG_OBJECTS) -o $(DEBUG_TARGET)
