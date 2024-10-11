@@ -22,6 +22,10 @@ RELEASE_OBJECTS = $(patsubst $(SOURCE_DIR)/%.c,$(RELEASE_DIR)/%.o,$(SOURCES))
 
 all:$(DEBUG_TARGET) $(RELEASE_TARGET)
 
+debug:$(DEBUG_TARGET)
+
+release:$(RELEASE_TARGET)
+
 $(DEBUG_TARGET):$(DEBUG_OBJECTS)
 	$(CC) $(CFLAGS) $(DEBUG_CFLAGS) $(DEBUG_OBJECTS) -o $(DEBUG_TARGET)
 
@@ -50,4 +54,6 @@ run: $(DEBUG_TARGET)
 run_release: $(RELEASE_TARGET)
 	@$(RELEASE_TARGET)
 
-.PHONY: clean run run_release configure all
+run_debug:run
+
+.PHONY: clean run run_release run_debug release debug configure all
