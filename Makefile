@@ -37,11 +37,9 @@ $(RELEASE_TARGET):$(RELEASE_OBJECTS)
 	$(CC) $(CFLAGS) $(RELEASE_OBJECTS) -o $(RELEASE_TARGET)
 
 $(DEBUG_DIR)/%.o:$(SOURCE_DIR)/%.c
-	@echo Running debuggy stuff
 	$(CC) -c $(CFLAGS) $(DEBUG_CFLAGS) $^ -o $@
 
 $(RELEASE_DIR)/%.o:$(SOURCE_DIR)/%.c
-	@echo Running releassy stuff
 	$(CC) -c $(CFLAGS) $(RELEASE_CFLAGS) $^ -o $@
 
 clean:
