@@ -20,7 +20,7 @@ SOURCES = $(wildcard $(SOURCE_DIR)/*.c)
 DEBUG_OBJECTS = $(patsubst $(SOURCE_DIR)/%.c,$(DEBUG_DIR)/%.o,$(SOURCES))
 RELEASE_OBJECTS = $(patsubst $(SOURCE_DIR)/%.c,$(RELEASE_DIR)/%.o,$(SOURCES))
 
-all:configure $(DEBUG_TARGET) $(RELEASE_TARGET)
+all:$(DEBUG_TARGET) $(RELEASE_TARGET)
 
 $(DEBUG_TARGET):$(DEBUG_OBJECTS)
 	$(CC) $(CFLAGS) $(DEBUG_CFLAGS) $(DEBUG_OBJECTS) -o $(DEBUG_TARGET)
@@ -37,14 +37,17 @@ $(RELEASE_DIR)/%.o:$(SOURCE_DIR)/%.c
 	$(CC) -c $(CFLAGS) $(RELEASE_CFLAGS) $^ -o $@
 
 clean:
-	@rm -rf $(RELEASE_DIR)
-	@rm -rf $(DEBUG_DIR)
+	@rm -rf $(RELEASE_DIR)/*
+	@rm -rf $(DEBUG_DIR)/*
 
 configure:
 	@mkdir -p $(RELEASE_DIR)
 	@mkdir -p $(DEBUG_DIR)
 
-run: $(TARGET)
-	@$(RELEASE_DIR)/$(PROG_NAME)
+run: $(DEBUG_TARGET)
+	@$(DEBUG_TARGET)
 
-.PHONY: clean run configure
+run_release: $(RELEASE_TARGET)
+	@$(RELEASE_TARGET)
+
+.PHONY: clean run run_release configure all
