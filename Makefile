@@ -10,10 +10,11 @@ DEBUG_OBJECTS = $(patsubst $(SOURCE_DIR)/%.c,$(DEBUG_DIR)/%.o,$(SOURCES))
 RELEASE_OBJECTS = $(patsubst $(SOURCE_DIR)/%.c,$(RELEASE_DIR)/%.o,$(SOURCES))
 
 CC=gcc
-CFLAGS=-Wall -Wextra -Wfloat-equal -Wundef -Wshadow \
--Wpointer-arith -Wcast-align -Wstrict-prototypes -Wswitch-default \
--Wswitch-enum -Wconversion -Wunreachable-code \
--Werror-implicit-function-declaration
+CFLAGS=-Wall -Wextra -Wfloat-equal -Wundef -Wshadow
+CFLAGS+=-Wpointer-arith -Wcast-align -Wstrict-prototypes -Wswitch-default
+CFLAGS+=-Wswitch-enum -Wconversion -Wunreachable-code
+CFLAGS+=-Werror-implicit-function-declaration
+CFLAGS+=-std=c99
 
 RELEASE_CFLAGS=-O2
 DEBUG_CFLAGS=-g -Og -DDEBUG
