@@ -1,0 +1,9 @@
+{
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/home/jim/Documents/dev/gameoflife/debug",
+            "binaryPath": "/home/jim/Documents/dev/gameoflife/debug/gameoflife",
+            "binaryArgs": []
+        }
+    ]
+}
