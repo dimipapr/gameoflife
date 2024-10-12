@@ -8,13 +8,13 @@
 #define CELL_DEAD       '-'
 
 
-void print_world(char world[WORLD_WIDTH][WORLD_HEIGHT]);
-void init_world(char world[WORLD_WIDTH][WORLD_HEIGHT]);
+void print_world(char **world);
+char **init_world(void);
 
 int main(void){
     
-    char world[50][10];
-    init_world(world);
+    char **world;
+    world = init_world();
     world[7][3]=1;
     world[7][4]=1;
     world[7][5]=1;
@@ -23,7 +23,7 @@ int main(void){
     return 0;
 }
 
-void print_world(char world[WORLD_WIDTH][WORLD_HEIGHT])
+void print_world(char **world)
 {
     int x,y;
 
@@ -35,11 +35,19 @@ void print_world(char world[WORLD_WIDTH][WORLD_HEIGHT])
     }
 }
 
-void init_world(char world[WORLD_WIDTH][WORLD_HEIGHT]){
-    int x,y;
-    for (y=0;y<WORLD_HEIGHT;y++){
-        for(x=0;x<WORLD_WIDTH;x++){
-            world[x][y]=0;
-        }
+char **init_world(void){
+    char **p;
+    p = (char **)malloc(WORLD_WIDTH*sizeof(char *));
+    if (p==NULL){
+        puts("Allocation error");
+        exit(1);
     }
+    for (int x=0;x<WORLD_WIDTH;x++){
+        p[x] = (char*)malloc(WORLD_HEIGHT*sizeof(char));
+        if (p[x]==NULL){
+            puts("Allocation error");
+            exit(1);
+        } 
+    }
+    return p;
 }
