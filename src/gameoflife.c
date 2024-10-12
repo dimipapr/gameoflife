@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define WORLD_WIDTH     50
 #define WORLD_HEIGHT    10
@@ -10,6 +11,7 @@
 
 void print_world(char **world);
 char **init_world(void);
+void wait_for(unsigned int seconds);
 
 int main(void){
     
@@ -20,6 +22,7 @@ int main(void){
     world[7][5]=1;
 
     print_world(world);
+    
     return 0;
 }
 
@@ -50,4 +53,9 @@ char **init_world(void){
         } 
     }
     return p;
+}
+void wait_for(unsigned int seconds)
+{
+    unsigned int retTime = time(0) + seconds;   // Get finishing time.
+    while (time(0) < retTime);               // Loop until it arrives.
 }
