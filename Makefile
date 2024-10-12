@@ -34,7 +34,7 @@ run_release:$(RELEASE_TARGET)
 build_release:$(RELEASE_TARGET)
 $(RELEASE_TARGET):$(RELEASE_OBJECTS)
 	$(CC) $(CFLAGS) $(RELEASE_CFLAGS) $^ -o $@
-$(RELEASE_DIR)/%.o:$(RELEASE_DIR)/%.c
+$(RELEASE_DIR)/%.o:$(SOURCE_DIR)/%.c
 	$(CC) $(CFLAGS) $(RELEASE_CFLAGS) -c $< -o $@
 
 create_structure:
