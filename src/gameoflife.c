@@ -15,6 +15,10 @@ int main(void){
     
     char world[50][10];
     init_world(world);
+    world[7][3]=1;
+    world[7][4]=1;
+    world[7][5]=1;
+
     print_world(world);
     return 0;
 }
