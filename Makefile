@@ -7,6 +7,7 @@ RELEASE_TARGET=$(RELEASE_DIR)/$(PROGRAM)
 
 SOURCES = $(wildcard $(SOURCE_DIR)/*.c)
 DEBUG_OBJECTS = $(patsubst $(SOURCE_DIR)/%.c,$(DEBUG_DIR)/%.o,$(SOURCES))
+RELEASE_OBJECTS = $(patsubst $(SOURCE_DIR)/%.c,$(RELEASE_DIR)/%.o,$(SOURCES))
 
 CC=gcc
 CFLAGS=-Wall -Wextra -Wfloat-equal -Wundef -Wshadow \
@@ -17,24 +18,24 @@ CFLAGS=-Wall -Wextra -Wfloat-equal -Wundef -Wshadow \
 RELEASE_CFLAGS=-O2
 DEBUG_CFLAGS=-g -Og
 
+debug:$(DEBUG_TARGET)
+	gdb $(DEBUG_TARGET)
+run_debug:$(DEBUG_TARGET)
+	./$(DEBUG_TARGET)
 build_debug:$(DEBUG_TARGET)
-
 $(DEBUG_TARGET):$(DEBUG_OBJECTS)
 	$(CC) $(CFLAGS) $(DEBUG_CFLAGS) $^ -o $@
-
-#debug objects build
 $(DEBUG_DIR)/%.o:$(SOURCE_DIR)/%.c
 	$(CC) $(CFLAGS) $(DEBUG_CFLAGS) -c $< -o $@
 
-run_debug:$(DEBUG_TARGET)
-	./$(DEBUG_TARGET)
 
-debug:$(DEBUG_TARGET)
-	gdb $(DEBUG_TARGET)
-
-
-test:
-	echo $(SOURCES)
+run_release:$(RELEASE_TARGET)
+	./$(RELEASE_TARGET)
+build_release:$(RELEASE_TARGET)
+$(RELEASE_TARGET):$(RELEASE_OBJECTS)
+	$(CC) $(CFLAGS) $(RELEASE_CFLAGS) $^ -o $@
+$(RELEASE_DIR)/%.o:$(RELEASE_DIR)/%.c
+	$(CC) $(CFLAGS) $(RELEASE_CFLAGS) -c $< -o $@
 
 create_structure:
 	@mkdir -p release
@@ -47,4 +48,4 @@ clean:
 list:
 	@grep '^[^#[:space:]].*:' Makefile
 
-.PHONY: clean create_structure test build_debug run_debug list
+.PHONY: clean create_structure build_debug run_debug list build_release
