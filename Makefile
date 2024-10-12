@@ -16,7 +16,7 @@ CFLAGS=-Wall -Wextra -Wfloat-equal -Wundef -Wshadow \
 -Werror-implicit-function-declaration
 
 RELEASE_CFLAGS=-O2
-DEBUG_CFLAGS=-g -Og
+DEBUG_CFLAGS=-g -Og -DDEBUG
 
 debug:$(DEBUG_TARGET)
 	gdb $(DEBUG_TARGET)
