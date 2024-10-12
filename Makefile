@@ -44,4 +44,7 @@ clean:
 	@rm -rf $(RELEASE_DIR)/*
 	@rm -rf $(DEBUG_DIR)/*
 
-.PHONY: clean create_structure test build_debug run_debug
+list:
+	@grep '^[^#[:space:]].*:' Makefile
+
+.PHONY: clean create_structure test build_debug run_debug list
