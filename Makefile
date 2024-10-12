@@ -7,7 +7,8 @@ DEBUG_TARGET = $(DEBUG_DIR)/$(PROG_NAME)
 
 CC=gcc
 CFLAGS=-std=c99
-CFLAGS+=-Wall -Werror -Wextra -Wfloat-equal -Wundef -Wshadow \
+CFLAGS+=-Werror
+CFLAGS+=-Wall -Wextra -Wfloat-equal -Wundef -Wshadow \
 -Wpointer-arith -Wcast-align -Wstrict-prototypes -Wwrite-strings \
 -Waggregate-return -Wcast-qual -Wswitch-default -Wswitch-enum \
 -Wconversion -Wunreachable-code
