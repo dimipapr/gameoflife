@@ -5,13 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
-
-#define WORLD_WIDTH     100
-#define WORLD_HEIGHT    40
-
-#define CELL_ALIVE      'o'
-#define CELL_DEAD       '-'
-
+#include "config.h"
 
 void print_world(unsigned char **world);
 unsigned char **init_world(void);
@@ -27,22 +21,11 @@ int main(void){
     world = init_world();
     neighbor_count = init_world();
     world_randomize(WORLD_WIDTH, WORLD_HEIGHT,world);
-    //crawler
-    // world[2][1]=1;
-    // world[2][3]=1;
-    // world[3][2]=1;
-    // world[3][3]=1;
-    // world[4][2]=1;
-
-    // world[2][1]=1;
-    // world[2][2]=1;
-    // world[2][3]=1;
     
     print_world(world);
     putc('\n',stdout);
     wait_for(2);
-    // printf("(1+10)%%10=%d\n",(1+10)%10);
-    // printf("(-1+10)%%10=%d\n",(-1+10)%10);
+
     while(1){
         //game loop
 
