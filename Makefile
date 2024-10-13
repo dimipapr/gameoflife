@@ -16,6 +16,8 @@ CFLAGS+=-Wswitch-enum -Wconversion -Wunreachable-code
 CFLAGS+=-Werror-implicit-function-declaration
 CFLAGS+=-std=c99
 
+#LIBS=-lc
+
 RELEASE_CFLAGS=-O2
 DEBUG_CFLAGS=-g -Og -DDEBUG
 
@@ -25,18 +27,18 @@ run_debug:$(DEBUG_TARGET)
 	./$(DEBUG_TARGET)
 build_debug:$(DEBUG_TARGET)
 $(DEBUG_TARGET):$(DEBUG_OBJECTS)
-	$(CC) $(CFLAGS) $(DEBUG_CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $(DEBUG_CFLAGS) $(LIBS) $^ -o $@
 $(DEBUG_DIR)/%.o:$(SOURCE_DIR)/%.c
-	$(CC) $(CFLAGS) $(DEBUG_CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(DEBUG_CFLAGS) $(LIBS) -c $< -o $@
 
 
 run_release:$(RELEASE_TARGET)
 	./$(RELEASE_TARGET)
 build_release:$(RELEASE_TARGET)
 $(RELEASE_TARGET):$(RELEASE_OBJECTS)
-	$(CC) $(CFLAGS) $(RELEASE_CFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $(RELEASE_CFLAGS) $(LIBS) $^ -o $@
 $(RELEASE_DIR)/%.o:$(SOURCE_DIR)/%.c
-	$(CC) $(CFLAGS) $(RELEASE_CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $(RELEASE_CFLAGS) $(LIBS) -c $< -o $@
 
 create_structure:
 	@mkdir -p release
