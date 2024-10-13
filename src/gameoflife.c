@@ -13,11 +13,13 @@ void wait_for(unsigned int seconds);
 void world_randomize(unsigned char width, unsigned char height,unsigned char **world);
 unsigned short rand_bool(void);
 void get_neighbor_count(unsigned char **world, unsigned char **neighbor_count,size_t height, size_t width);
+void get_next_gen(unsigned char **out_world, unsigned char **neighbor_count, size_t height, size_t width);
 
 int main(void){
     
     unsigned char **world;
     unsigned char **neighbor_count;
+    srand(time(0));
 
     world = init_world(WORLD_HEIGHT, WORLD_WIDTH);
     neighbor_count = init_world(WORLD_HEIGHT, WORLD_WIDTH);
@@ -25,30 +27,13 @@ int main(void){
     
     print_world(world, WORLD_HEIGHT, WORLD_WIDTH);
     putc('\n',stdout);
-    wait_for(2);
+    usleep(1000*1000);
 
     while(1){
         //game loop
 
         get_neighbor_count(world,neighbor_count,WORLD_HEIGHT,WORLD_WIDTH);
-        
-        
-        //decide for each cell
-        for (int y=0;y<WORLD_HEIGHT;y++){
-            for(int x=0;x<WORLD_WIDTH;x++){
-                if(world[x][y]==1){
-                    //alive_cell case
-                    if( !(neighbor_count[x][y]==2 || neighbor_count[x][y]==3) )
-                        world[x][y]=0;
-
-                }else{
-                    //dead cell
-                    if(neighbor_count[x][y] == 3)
-                        world[x][y]=1;
-                }
-            }
-        }
-        //print world
+        get_next_gen(world,neighbor_count,WORLD_HEIGHT,WORLD_WIDTH);
         print_world(world, WORLD_HEIGHT, WORLD_WIDTH);
         //reinitialize neighbor count
         for (int y=0;y<WORLD_HEIGHT;y++){
@@ -57,11 +42,29 @@ int main(void){
             }
         }
         //wait_for(1);
-        usleep(200*1000);
+        usleep(100*1000);
         
-        puts("\n");
+        // puts("\n");
     }
     return 0;
+}
+
+void get_next_gen(unsigned char **out_world, unsigned char **neighbor_count, size_t height, size_t width)
+{
+    for (size_t y=0;y<height;y++){
+        for(size_t x=0;x<width;x++){
+            if(out_world[x][y]==1){
+                //alive_cell case
+                if( !(neighbor_count[x][y]==2 || neighbor_count[x][y]==3) )
+                    out_world[x][y]=0;
+
+            }else{
+                //dead cell
+                if(neighbor_count[x][y] == 3)
+                    out_world[x][y]=1;
+            }
+        }
+    }
 }
 
 void get_neighbor_count(
