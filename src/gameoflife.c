@@ -1,32 +1,38 @@
+#pragma GCC diagnostic ignored "-Wunused-result"
+
+#define _DEFAULT_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 
-#define WORLD_WIDTH     50
-#define WORLD_HEIGHT    10
+#define WORLD_WIDTH     100
+#define WORLD_HEIGHT    40
 
 #define CELL_ALIVE      'o'
 #define CELL_DEAD       '-'
 
 
-void print_world(char **world);
-char **init_world(void);
+void print_world(unsigned char **world);
+unsigned char **init_world(void);
 void wait_for(unsigned int seconds);
+void world_randomize(unsigned char width, unsigned char height,unsigned char **world);
+unsigned short rand_bool(void);
 
 int main(void){
     
-    char **world;
-    char **neighbor_count;
+    unsigned char **world;
+    unsigned char **neighbor_count;
 
     world = init_world();
     neighbor_count = init_world();
-
+    world_randomize(WORLD_WIDTH, WORLD_HEIGHT,world);
     //crawler
-    world[2][1]=1;
-    world[2][3]=1;
-    world[3][2]=1;
-    world[3][3]=1;
-    world[4][2]=1;
+    // world[2][1]=1;
+    // world[2][3]=1;
+    // world[3][2]=1;
+    // world[3][3]=1;
+    // world[4][2]=1;
 
     // world[2][1]=1;
     // world[2][2]=1;
@@ -34,6 +40,7 @@ int main(void){
     
     print_world(world);
     putc('\n',stdout);
+    wait_for(2);
     // printf("(1+10)%%10=%d\n",(1+10)%10);
     // printf("(-1+10)%%10=%d\n",(-1+10)%10);
     while(1){
@@ -95,17 +102,18 @@ int main(void){
                 neighbor_count[x][y]=0;
             }
         }
-        wait_for(1);
+        //wait_for(1);
+        usleep(200*1000);
         
         puts("\n");
     }
     return 0;
 }
 
-void print_world(char **world)
+void print_world(unsigned char **world)
 {
     int x,y;
-    //system("clear");
+    system("clear");
     for (y=0;y<WORLD_HEIGHT;y++){
         for(x=0;x<WORLD_WIDTH;x++){
             (world[x][y]==1)?putchar(CELL_ALIVE):putchar(CELL_DEAD);
@@ -114,15 +122,15 @@ void print_world(char **world)
     }
 }
 
-char **init_world(void){
-    char **p;
-    p = (char **)malloc(WORLD_WIDTH*sizeof(char *));
+unsigned char **init_world(void){
+    unsigned char **p;
+    p = (unsigned char **)malloc(WORLD_WIDTH*sizeof(unsigned char *));
     if (p==NULL){
         puts("Allocation error");
         exit(1);
     }
     for (int x=0;x<WORLD_WIDTH;x++){
-        p[x] = (char*)malloc(WORLD_HEIGHT*sizeof(char));
+        p[x] = (unsigned char*)malloc(WORLD_HEIGHT*sizeof(unsigned char));
         if (p[x]==NULL){
             puts("Allocation error");
             exit(1);
@@ -134,4 +142,19 @@ void wait_for(unsigned int seconds)
 {
     long int retTime = time(0) + seconds;   // Get finishing time.
     while (time(0) < retTime);               // Loop until it arrives.
+}
+void world_randomize(unsigned char width, unsigned char height, unsigned char **world){
+    for (size_t x = 0; x < width; x++)
+    {
+        for (size_t y = 0; y < height; y++)
+        {
+            world[x][y] = (unsigned char)rand_bool();
+        }
+        
+    }
+    
+}
+
+unsigned short rand_bool(void){
+    if(rand()<RAND_MAX/2)return 0;else return 1;
 }
