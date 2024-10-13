@@ -6,6 +6,7 @@ DEBUG_TARGET=$(DEBUG_DIR)/$(PROGRAM)
 RELEASE_TARGET=$(RELEASE_DIR)/$(PROGRAM)
 
 SOURCES = $(wildcard $(SOURCE_DIR)/*.c)
+HEADERS = $(wildcard $(SOURCE_DIR)/*.h)
 DEBUG_OBJECTS = $(patsubst $(SOURCE_DIR)/%.c,$(DEBUG_DIR)/%.o,$(SOURCES))
 RELEASE_OBJECTS = $(patsubst $(SOURCE_DIR)/%.c,$(RELEASE_DIR)/%.o,$(SOURCES))
 
@@ -27,7 +28,7 @@ debug:$(DEBUG_TARGET)
 run_debug:$(DEBUG_TARGET)
 	./$(DEBUG_TARGET)
 build_debug:$(DEBUG_TARGET)
-$(DEBUG_TARGET):$(DEBUG_OBJECTS)
+$(DEBUG_TARGET):$(DEBUG_OBJECTS) $(HEADERS)
 	$(CC) $(CFLAGS) $(DEBUG_CFLAGS) $(LIBS) $^ -o $@
 $(DEBUG_DIR)/%.o:$(SOURCE_DIR)/%.c
 	$(CC) $(CFLAGS) $(DEBUG_CFLAGS) $(LIBS) -c $< -o $@

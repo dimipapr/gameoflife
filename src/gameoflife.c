@@ -7,8 +7,8 @@
 #include <unistd.h>
 #include "config.h"
 
-void print_world(unsigned char **world);
-unsigned char **init_world(void);
+void print_world(unsigned char **world,size_t height, size_t width);
+unsigned char **init_world(size_t height, size_t width);
 void wait_for(unsigned int seconds);
 void world_randomize(unsigned char width, unsigned char height,unsigned char **world);
 unsigned short rand_bool(void);
@@ -18,11 +18,11 @@ int main(void){
     unsigned char **world;
     unsigned char **neighbor_count;
 
-    world = init_world();
-    neighbor_count = init_world();
+    world = init_world(WORLD_HEIGHT, WORLD_WIDTH);
+    neighbor_count = init_world(WORLD_HEIGHT, WORLD_WIDTH);
     world_randomize(WORLD_WIDTH, WORLD_HEIGHT,world);
     
-    print_world(world);
+    print_world(world, WORLD_HEIGHT, WORLD_WIDTH);
     putc('\n',stdout);
     wait_for(2);
 
@@ -78,7 +78,7 @@ int main(void){
             }
         }
         //print world
-        print_world(world);
+        print_world(world, WORLD_HEIGHT, WORLD_WIDTH);
         //reinitialize neighbor count
         for (int y=0;y<WORLD_HEIGHT;y++){
             for(int x=0;x<WORLD_WIDTH;x++){
@@ -93,27 +93,27 @@ int main(void){
     return 0;
 }
 
-void print_world(unsigned char **world)
+void print_world(unsigned char **world, size_t height, size_t width)
 {
-    int x,y;
+    size_t x,y;
     system("clear");
-    for (y=0;y<WORLD_HEIGHT;y++){
-        for(x=0;x<WORLD_WIDTH;x++){
+    for (y=0;y<height;y++){
+        for(x=0;x<width;x++){
             (world[x][y]==1)?putchar(CELL_ALIVE):putchar(CELL_DEAD);
         }
         putchar('\n');
     }
 }
 
-unsigned char **init_world(void){
+unsigned char **init_world(size_t height, size_t width){
     unsigned char **p;
-    p = (unsigned char **)malloc(WORLD_WIDTH*sizeof(unsigned char *));
+    p = (unsigned char **)malloc(width*sizeof(unsigned char *));
     if (p==NULL){
         puts("Allocation error");
         exit(1);
     }
-    for (int x=0;x<WORLD_WIDTH;x++){
-        p[x] = (unsigned char*)malloc(WORLD_HEIGHT*sizeof(unsigned char));
+    for (size_t x=0;x<width;x++){
+        p[x] = (unsigned char*)malloc(height*sizeof(unsigned char));
         if (p[x]==NULL){
             puts("Allocation error");
             exit(1);
