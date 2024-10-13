@@ -12,6 +12,7 @@ unsigned char **init_world(size_t height, size_t width);
 void wait_for(unsigned int seconds);
 void world_randomize(unsigned char width, unsigned char height,unsigned char **world);
 unsigned short rand_bool(void);
+void get_neighbor_count(unsigned char **world, unsigned char **neighbor_count,size_t height, size_t width);
 
 int main(void){
     
@@ -29,38 +30,8 @@ int main(void){
     while(1){
         //game loop
 
-        //loop through internal cells
-        for(int x=0;x<WORLD_WIDTH;x++)
-        {
-            for (int y=0;y<WORLD_HEIGHT;y++)
-            {
-                //get neighbor count
-                switch (world[x][y])
-                {
-                case 1://alive
-                    //vote to neighbors
-                    int x_minus, x_pluss, y_minus, y_pluss;
-                    x_minus = (x-1+WORLD_WIDTH)%WORLD_WIDTH;
-                    x_pluss = (x+1)%WORLD_WIDTH;
-                    y_minus = (y-1+WORLD_HEIGHT)%WORLD_HEIGHT;
-                    y_pluss = (y+1)%WORLD_HEIGHT;
-
-
-                    neighbor_count[x_minus][y_minus]+=1;
-                    neighbor_count[x][y_minus]+=1;
-                    neighbor_count[x_pluss][y_minus]+=1;
-                    neighbor_count[x_minus][y]+=1;
-                    neighbor_count[x_pluss][y]+=1;
-                    neighbor_count[x_minus][y_pluss]+=1;
-                    neighbor_count[x][y_pluss]+=1;
-                    neighbor_count[x_pluss][y_pluss]+=1;
-                    break;
-                
-                default:
-                    break;
-                }
-            }
-        }
+        get_neighbor_count(world,neighbor_count,WORLD_HEIGHT,WORLD_WIDTH);
+        
         
         //decide for each cell
         for (int y=0;y<WORLD_HEIGHT;y++){
@@ -91,6 +62,45 @@ int main(void){
         puts("\n");
     }
     return 0;
+}
+
+void get_neighbor_count(
+    unsigned char **world,
+    unsigned char **neighbor_count,
+    size_t height,
+    size_t width)
+{
+    for(int x=0;x<width;x++)
+        {
+            for (int y=0;y<height;y++)
+            {
+                //get neighbor count
+                switch (world[x][y])
+                {
+                case 1://alive
+                    //vote to neighbors
+                    int x_minus, x_pluss, y_minus, y_pluss;
+                    x_minus = (x-1+width)%width;
+                    x_pluss = (x+1)%width;
+                    y_minus = (y-1+height)%height;
+                    y_pluss = (y+1)%height;
+
+
+                    neighbor_count[x_minus][y_minus]+=1;
+                    neighbor_count[x][y_minus]+=1;
+                    neighbor_count[x_pluss][y_minus]+=1;
+                    neighbor_count[x_minus][y]+=1;
+                    neighbor_count[x_pluss][y]+=1;
+                    neighbor_count[x_minus][y_pluss]+=1;
+                    neighbor_count[x][y_pluss]+=1;
+                    neighbor_count[x_pluss][y_pluss]+=1;
+                    break;
+                
+                default:
+                    break;
+                }
+            }
+        }
 }
 
 void print_world(unsigned char **world, size_t height, size_t width)
