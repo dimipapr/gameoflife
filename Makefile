@@ -15,6 +15,7 @@ CFLAGS+=-Wpointer-arith -Wcast-align -Wstrict-prototypes -Wswitch-default
 CFLAGS+=-Wswitch-enum -Wconversion -Wunreachable-code
 CFLAGS+=-Werror-implicit-function-declaration
 CFLAGS+=-std=c99
+CFLAGS+=-I$.(SOURCE_DIR)
 
 #LIBS=-lc
 
