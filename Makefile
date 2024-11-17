@@ -31,6 +31,7 @@ build_debug:$(DEBUG_TARGET)
 $(DEBUG_TARGET):$(DEBUG_OBJECTS) $(HEADERS)
 	$(CC) $(CFLAGS) $(DEBUG_CFLAGS) $(LIBS) $^ -o $@
 $(DEBUG_DIR)/%.o:$(SOURCE_DIR)/%.c
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(DEBUG_CFLAGS) $(LIBS) -c $< -o $@
 
 
@@ -40,6 +41,7 @@ build_release:$(RELEASE_TARGET)
 $(RELEASE_TARGET):$(RELEASE_OBJECTS)
 	$(CC) $(CFLAGS) $(RELEASE_CFLAGS) $(LIBS) $^ -o $@
 $(RELEASE_DIR)/%.o:$(SOURCE_DIR)/%.c
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(RELEASE_CFLAGS) $(LIBS) -c $< -o $@
 
 create_structure:
