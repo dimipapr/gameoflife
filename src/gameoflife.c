@@ -14,12 +14,14 @@ void world_randomize(unsigned char width, unsigned char height,unsigned char **w
 unsigned short rand_bool(void);
 void get_neighbor_count(unsigned char **world, unsigned char **neighbor_count,size_t height, size_t width);
 void get_next_gen(unsigned char **out_world, unsigned char **neighbor_count, size_t height, size_t width);
+void game_loop(unsigned char **world, unsigned char **neighbor_count);
+
 
 int main(void){
     
     unsigned char **world;
     unsigned char **neighbor_count;
-    srand(time(0));
+    srand((unsigned int)time(0));
 
     world = init_world(WORLD_HEIGHT, WORLD_WIDTH);
     neighbor_count = init_world(WORLD_HEIGHT, WORLD_WIDTH);
@@ -31,8 +33,17 @@ int main(void){
 
     while(1){
         //game loop
+        game_loop(world,neighbor_count);
 
-        get_neighbor_count(world,neighbor_count,WORLD_HEIGHT,WORLD_WIDTH);
+        
+        
+        // puts("\n");
+    }
+    return 0;
+}
+
+void game_loop(unsigned char **world, unsigned char **neighbor_count){
+    get_neighbor_count(world,neighbor_count,WORLD_HEIGHT,WORLD_WIDTH);
         get_next_gen(world,neighbor_count,WORLD_HEIGHT,WORLD_WIDTH);
         print_world(world, WORLD_HEIGHT, WORLD_WIDTH);
         //reinitialize neighbor count
@@ -43,10 +54,6 @@ int main(void){
         }
         //wait_for(1);
         usleep(LOOP_DELAY_MS*1000);
-        
-        // puts("\n");
-    }
-    return 0;
 }
 
 void get_next_gen(unsigned char **out_world, unsigned char **neighbor_count, size_t height, size_t width)
@@ -73,16 +80,16 @@ void get_neighbor_count(
     size_t height,
     size_t width)
 {
-    for(int x=0;x<width;x++)
+    for(size_t x=0;x<width;x++)
         {
-            for (int y=0;y<height;y++)
+            for (size_t y=0;y<height;y++)
             {
                 //get neighbor count
                 switch (world[x][y])
                 {
                 case 1://alive
                     //vote to neighbors
-                    int x_minus, x_pluss, y_minus, y_pluss;
+                    size_t x_minus, x_pluss, y_minus, y_pluss;
                     x_minus = (x-1+width)%width;
                     x_pluss = (x+1)%width;
                     y_minus = (y-1+height)%height;
