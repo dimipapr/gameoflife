@@ -42,7 +42,7 @@ int main(void){
             }
         }
         //wait_for(1);
-        usleep(100*1000);
+        usleep(LOOP_DELAY_MS*1000);
         
         // puts("\n");
     }
